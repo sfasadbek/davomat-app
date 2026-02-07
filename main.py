@@ -72,7 +72,7 @@ class DavomatApp(App):
         header.add_widget(Label(text=f"ID: {self.id_num} | {self.user}", font_size=55, color=(1,1,0,1), bold=True))
         self.clock = Label(text="00:00:00", font_size=120, color=(0,1,0.8,1), bold=True)
         header.add_widget(self.clock)
-        self.status_lbl = Label(text="TAYYOR", font_size=40, color=(0,1,0,1), bold=True)
+        self.status_lbl = Label(text="JARAYONDA...", font_size=40, color=(0,1,0,1), bold=True)
         header.add_widget(self.status_lbl)
         Clock.schedule_interval(self.tick, 1); main.add_widget(header)
 
@@ -123,7 +123,7 @@ class DavomatApp(App):
                 self.status_lbl.color = (0, 1, 0, 1)
             else: raise Exception()
         except:
-            self.status_lbl.text = f"OFFLINE SAQLANDI: {holat}"
+            self.status_lbl.text = f"OFFLINE MALUMOT SAQLANDI: {holat}"
             self.status_lbl.color = (1, 0.5, 0, 1) # To'q sariq (ogohlantirish)
 
         instance.disabled = True
@@ -134,7 +134,7 @@ class DavomatApp(App):
         lay = BoxLayout(orientation='vertical', padding=30, spacing=25)
         top = BoxLayout(size_hint_y=0.18, spacing=15)
         
-        sync_btn = Button(text="SINXRONIZATSIYA\n(SERVERGA)", size_hint_x=0.4, background_color=(0, 0.5, 0.8, 1), font_size=24, bold=True)
+        sync_btn = Button(text="SINXRONIZATSIYA\n(QILISH)", size_hint_x=0.4, background_color=(0, 0.5, 0.8, 1), font_size=24, bold=True)
         sync_btn.bind(on_release=self.sync_to_firebase)
         
         down_btn = Button(text="YUKLASH\n(CSV)", size_hint_x=0.35, background_color=(0, 0.7, 0, 1), font_size=24)
@@ -208,7 +208,7 @@ class DavomatApp(App):
     def show_my_logs(self, *args):
         self.root.clear_widgets()
         lay = BoxLayout(orientation='vertical', padding=40, spacing=30)
-        lay.add_widget(Label(text="DAVOMAT ARXIVI", font_size=50, size_hint_y=0.15, color=(0,1,1,1)))
+        lay.add_widget(Label(text="DAVOMATLAR", font_size=50, size_hint_y=0.15, color=(0,1,1,1)))
         sc = ScrollView(); box = BoxLayout(orientation='vertical', size_hint_y=None, spacing=20)
         box.bind(minimum_height=box.setter('height'))
         
@@ -227,3 +227,4 @@ class DavomatApp(App):
 if __name__ == "__main__":
     DavomatApp().run()
         
+
