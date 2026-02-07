@@ -1,0 +1,21 @@
+name: Build APK
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Buildozer Action
+        uses: ArtemSashnin/buildozer-action@v1
+        with:
+          buildozer_version: master
+          python_version: 3.10
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: STATS MB-APK
+          path: bin/*.apk
+          
