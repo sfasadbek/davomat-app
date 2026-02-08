@@ -1,28 +1,38 @@
-[app]
-title = STATS MB
-package.name = statsmb
-package.domain = org.stats
-source.dir = .
-source.include_exts = py,png,jpg,kv,atlas
-version = 0.1
+name: Build APK
 
-# Kerakli kutubxonalar
-requirements = python3,kivy==2.2.1,requests,urllib3,chardet,idna,openssl
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
 
-orientation = portrait
-fullscreen = 0
+jobs:
+  build:
+    # Eng muhim joyi: ubuntu-latest tezkor serverni bildiradi
+    runs-on: ubuntu-latest
 
-# Ruxsatnomalar (Fayl saqlash va Internet)
-android.permissions = INTERNET, WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE, ACCESS_NETWORK_STATE
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-# Arxitektura va API versiyalari
-android.archs = arm64-v8a, armeabi-v7a
-android.api = 31
-android.minapi = 21
-android.sdk = 33
-android.ndk = 23b
-android.accept_sdk_license = True
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
 
-[buildozer]
-log_level = 2
-warn_on_root = 1
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential libffi-dev git zip unzip
+          pip install --upgrade pip
+          pip install buildozer cython==0.29.33 kivy requests
+
+      - name: Build with Buildozer
+        # yes | buyrug'i litsenziyalarni avtomatik tasdiqlaydi
+        run: yes | buildozer -v android debug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: STATS-MB-APK
+          path: bin/*.apk
+          
